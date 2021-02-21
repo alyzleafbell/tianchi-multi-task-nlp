@@ -13,12 +13,18 @@ import torch
 import numpy as np
 from transformers import BertModel, BertTokenizer
 from utils import get_task_chinese
+import zipfile
+import os
 
-
+# tcdata testB
+#|--tcdata
+#​	|-- ocemotion_test_B.csv
+#	|-- ocnli_test_B.csv
+#	|-- tnews_test_B.csv
 def test_csv_to_json():
-    for e in ['TNEWS', 'OCNLI', 'OCEMOTION']:
-        with open('./tianchi_datasets/' + e + '/test.csv') as fr:
-            with open('./tianchi_datasets/' + e + '/test.json', 'w') as fw:
+    for e in ['tnews','ocnli','ocemotion']:#['TNEWS', 'OCNLI', 'OCEMOTION']:
+        with open('./tcdata/' + e + '_test_B.csv',encoding = 'utf-8') as fr:
+            with open('./tianchi_datasets/' + e.upper() + '/test.json', 'w') as fw:
                 json_dict = dict()
                 for line in fr:
                     tmp_list = line.strip().split('\t')
@@ -110,11 +116,29 @@ def inference(path, data_dict, model, tokenizer, idx2label, task_type, device='c
                     f.write(json.dumps(single_result_dict, ensure_ascii=False))
                     if not (next_start_ids >= len(ids_list) and i == len(cur_ids_list) - 1):
                         f.write('\n')
-                        
+
+#打包目录为zip文件（未压缩）
+def make_zip(source_dir='./submission/', output_filename = 'result.zip'):
+    zipf = zipfile.ZipFile(output_filename, 'w')
+    pre_len = len(os.path.dirname(source_dir))
+    files = os.listdir(source_dir)
+    #source_dirs = os.walk(source_dir)
+    print(files)
+    for filename in files:
+
+        if '.json' not in filename:
+            continue
+        pathfile = os.path.join(source_dir, filename)
+        arcname = pathfile[pre_len:].strip(os.path.sep)   #相对路径
+        zipf.write(pathfile, arcname)
+    zipf.close()
+
 if __name__ == '__main__':
     test_csv_to_json()
     print('---------------------------------start inference-----------------------------')
     inference_warpper(tokenizer_model='./bert_pretrain_model')
+    make_zip()
+
     
     
     

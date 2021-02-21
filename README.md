@@ -1,3 +1,11 @@
+diary
+0221
+1. 尝试生成多个docker过程中，遭遇win10 C盘空间不足；Pycharm 无法build docker包
+	a. docker desktop中删除历史image；效果甚微
+	b.pycharm的config目录调整到D盘
+	c.用everything搜索docker超大文件，发现c盘临时目录下积累多个历史dockerclient超10G临时文件
+2. 生成docker提交一直pullbackoff，查找原因中
+
 # 比赛全流程体验
 NLP中文预训练模型泛化能力挑战赛
 
@@ -118,3 +126,4 @@ zip -r ./result.zip ./*.json
 5. 对训练好的模型再在完整数据集（包括验证集和训练集）上用小的学习率训练一个epoch；
 6. 调整bathSize和a_step，变更梯度累计的程度，当前是batchSize=16，a_step=16；
 7. 用 chinese-roberta-wwm-ext 作为预训练模型；
+
