@@ -5,6 +5,9 @@ diary
 	b.pycharm的config目录调整到D盘
 	c.用everything搜索docker超大文件，发现c盘临时目录下积累多个历史dockerclient超10G临时文件
 2. 生成docker提交一直pullbackoff，查找原因中
+提交截图如下：
+![image](https://github.com/alyzleafbell/tianchi-multi-task-nlp/blob/main/nlp_submission.png)
+
 
 # 比赛全流程体验
 NLP中文预训练模型泛化能力挑战赛
